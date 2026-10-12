@@ -14,7 +14,7 @@ process CHUNKBYZIP {
     tuple val(meta), path("*.tsv"), emit: tsv
     tuple val(meta), path("${meta.id}"), emit: chunk_folder
     tuple val("${task.process}"), val('python'), eval('python3 --version | cut -d" " -f2'), topic: versions, emit: versions_chunkbyzip
-    
+
     when:
     task.ext.when == null || task.ext.when
 
@@ -32,7 +32,7 @@ process CHUNKBYZIP {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo $args
-    
+
     mkdir -p ${prefix}
     touch ${prefix}.tsv
     """

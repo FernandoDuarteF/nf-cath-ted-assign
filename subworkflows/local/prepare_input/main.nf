@@ -11,7 +11,7 @@ workflow PREPARE_INPUT {
     //
     // MODULE: CREATEINPUTZIP
     //
-    CREATEINPUTZIP ( 
+    CREATEINPUTZIP (
         ch_zip_file
     )
 
@@ -39,7 +39,7 @@ workflow PREPARE_INPUT {
             sort: true,
             newLine: true,
             storeDir: "${params.outdir}/intermediante",
-        ) { meta, zip -> 
+        ) { meta, zip ->
             [ "${meta.id}.all_ids_mapping.tsv", "${meta.pdb_id}\t${zip}" ]
         }
         .map { tsv ->
