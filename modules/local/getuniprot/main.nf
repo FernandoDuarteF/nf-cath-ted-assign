@@ -1,4 +1,4 @@
-process GETUNIPORT {
+process GETUNIPROT {
     tag "$meta.id"
     label 'process_single'
 
@@ -10,7 +10,7 @@ process GETUNIPORT {
 
     output:
     tuple val(meta), path("*.tsv"), emit: tsv
-    tuple val("${task.process}"), val('python'), eval("python3 --version | cut -d' ' -f2"), topic: versions, emit: versions_getuniport
+    tuple val("${task.process}"), val('python'), eval("python3 --version | cut -d' ' -f2"), topic: versions, emit: versions_getuniprot
 
     when:
     task.ext.when == null || task.ext.when
