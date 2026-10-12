@@ -8,6 +8,9 @@ workflow PREPARE_INPUT {
 
     main:
 
+    //
+    // MODULE: CREATEINPUTZIP
+    //
     CREATEINPUTZIP ( 
         ch_zip_file
     )
@@ -44,9 +47,12 @@ workflow PREPARE_INPUT {
             [ [ id: id ], tsv ]
         }
         .view()
-        .set { ch_all_ids_mapping }
+        .set { ch_all_ids_mapping } // channel: [ val(meta), path(tsv) ]
 
     //
+    // MODULE: CHUNKBYZIP
+    //
+    // params.chunk_size PDBs per chunk
     CHUNKBYZIP (
         params.chunk_size,
         ch_all_ids_mapping

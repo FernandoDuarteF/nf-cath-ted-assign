@@ -13,7 +13,7 @@ process CREATEINPUTZIP {
 
     output:
     tuple val (meta), path("*.tsv"), emit: input_mapping
-    tuple val("${task.process}"), val('createinput'), eval('python3 --version | cut -d" " -f2'), topic: versions, emit: versions_createinput
+    tuple val("${task.process}"), val('python'), eval('python3 --version | cut -d" " -f2'), topic: versions, emit: versions_createinput
 
     when:
     task.ext.when == null || task.ext.when
