@@ -62,7 +62,7 @@ workflow PREPARE_INPUT {
     CHUNKBYZIP.out.chunk_folder // channel: [ val(meta), path(chunk_files) ]
         .transpose() // Transpose to get a channel per chunk: [ val(meta), path(chunk_file) ]
         .map { meta, chunk_file ->
-            def chunk_id = chunk_file.name.tokenize('.')[-2] // Get the chunk ID from the chunk file name (0-based index)
+            def chunk_id = chunk_file.name.tokenize('.')[-2].toInteger() // Get the chunk ID from the chunk file name (0-based index)
             def new_meta = meta + [ chunk_id: chunk_id ] // Add chunk_id to meta
             [ new_meta, chunk_file ] // channel: [ val(new_meta), path(chunk_file) ]
         }
