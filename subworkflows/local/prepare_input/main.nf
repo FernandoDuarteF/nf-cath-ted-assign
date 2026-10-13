@@ -12,34 +12,42 @@ workflow PREPARE_INPUT {
     //
     // MODULE: CREATEINPUTZIP
     //
+
     CREATEINPUTZIP ( 
         ch_zip_file
     )
 
+    // Get the input mapping files and their corresponding meta information
     CREATEINPUTZIP.out.input_mapping
         .map { meta, tsv ->
-            def splittsv = tsv.splitCsv(header:false, sep:'\t') // Split TSV into a list of lists
+            def splittsv = tsv.splitCsv(header:false, sep:'\t', strip:true) // Split TSV into a list of lists
             [ meta, splittsv ] // channel: [ val(meta), [ [ pdb_id, zip ] ] ]
         }
         .transpose() // Transpose to get a channel per PDB ID: [ meta, [ pdb_id, zip ] ]
         .map { meta, pdb_zip ->
-            def pdb_id = pdb_zip[0]?.trim() // Trim whitespace from PDB ID
-            def zip = pdb_zip[1]?.trim()
+            def pdb_id = pdb_zip[0]
+            def zip = pdb_zip[1]
             def new_meta = meta + [ pdb_id: pdb_id ] // Add pdb_id to meta
             [ new_meta, zip ] // channel: [ val(new_meta), val(zip) ]
         }
         .filter { meta, zip -> zip && meta.pdb_id }
         .unique()
-        .toSortedList { a, b -> a[0].id <=> b[0].id ?: a[0].pdb_id <=> b[0].pdb_id } // Are PDB IDs unique? This is handling the case where they are not unique across files
         .flatMap() // Necessary because of toSortedList output
         .set { ch_input_mapping }
+
+    // Apply debug limit if enabled
+    if (params.debug && params.max_entries) {
+        ch_input_mapping
+            .take(params.max_entries)
+            .set { ch_input_mapping }
+    }
 
     // Collect all input mapping files into a single TSV file
     ch_input_mapping
         .collectFile (
             sort: true,
             newLine: true,
-            storeDir: "${params.outdir}/intermediante",
+            storeDir: "${params.outdir}/intermediate",
         ) { meta, zip -> 
             [ "${meta.id}.all_ids_mapping.tsv", "${meta.pdb_id}\t${zip}" ]
         }
@@ -52,6 +60,7 @@ workflow PREPARE_INPUT {
     //
     // MODULE: CHUNKBYZIP
     //
+
     // params.chunk_size PDBs per chunk
     CHUNKBYZIP (
         params.chunk_size,
@@ -84,6 +93,8 @@ workflow PREPARE_INPUT {
     //
     // MODULE: GETUNIPROT
     //
+
+    // Only needs ch_chunks as input
     GETUNIPROT (
         ch_chunks
     )
