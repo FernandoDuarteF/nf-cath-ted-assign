@@ -30,7 +30,7 @@ process GETUNIPROT {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo $args
-    
+
     touch ${prefix}.uniprot_data.tsv
     """
 }

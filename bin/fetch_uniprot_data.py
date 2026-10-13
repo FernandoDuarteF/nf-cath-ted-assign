@@ -323,7 +323,7 @@ def fetch_uniprot_info(accession):
     url = f"https://rest.uniprot.org/uniprotkb/search?query=accession:{accession}&fields=xref_proteomes,organism_name&format=json"
     response = requests.get(url)
     data = response.json()
-    
+
     try:
         result = data['results'][0]
         # proteome_id = proteome_info.get('id', '')  # Unused variable, remove
