@@ -35,8 +35,8 @@ workflow PREPARE_INPUT {
         .flatMap() // Necessary because of toSortedList output
         .set { ch_input_mapping }
 
-    // Apply debug limit if enabled
-    if (params.debug && params.max_entries) {
+    // Limit the number of structures processed if requested
+    if (params.max_entries) {
         ch_input_mapping
             .take(params.max_entries)
             .set { ch_input_mapping }
