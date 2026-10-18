@@ -1,51 +1,75 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "prepare_input"
-## TODO nf-core: Add a description of the subworkflow and list keywords
-description: Sort SAM/BAM/CRAM file
+description: |
+  List the structures in each input ZIP archive, split them into chunks, renumber
+  experimental structures and keep single-model, single-chain proteins within a
+  residue-count range. Also fetches UniProt taxonomy for predicted structures.
 keywords:
-  - sort
-  - bam
-  - sam
-  - cram
-## TODO nf-core: Add a list of the modules and/or subworkflows used in the subworkflow
+  - protein structure
+  - pdb
+  - alphafold
+  - chunk
+  - filter
 components:
-  - samtools/sort
-  - samtools/index
-## TODO nf-core: List all of the channels used as input with a description and their structure
+  - createinputzip
+  - chunkbyzip
+  - renumberpdb
+  - filterpdb
+  - getuniprot
 input:
-  - ch_bam:
+  - ch_zip_file:
       type: file
       description: |
-        The input channel containing the BAM/CRAM/SAM files
-        Structure: [ val(meta), path(bam) ]
-      pattern: "*.{bam/cram/sam}"
-## TODO nf-core: List all of the channels used as output with a descriptions and their structure
+        Channel of input ZIP archives of protein structures
+        Structure: [ val(meta), path(zip) ], meta: [ id, structure_type ]
+      pattern: "*.zip"
+  - chunk_size:
+      type: integer
+      description: Maximum number of structures per chunk
+  - max_entries:
+      type: integer
+      description: Maximum number of structures to process, selected in ID order; null processes all
+  - min_residues:
+      type: integer
+      description: Structures with this many amino-acid residues or fewer are rejected
+  - max_residues:
+      type: integer
+      description: Structures with this many amino-acid residues or more are rejected
 output:
-  - bam:
+  - structures:
       type: file
       description: |
-        Channel containing BAM files
-        Structure: [ val(meta), path(bam) ]
-      pattern: "*.bam"
-  - bai:
+        Accepted structure IDs per chunk with the ZIP archive to read them from
+        (the renumbered archive for experimental structures)
+        Structure: [ val(meta), path(filtered_ids), path(zip) ], meta: [ id, structure_type, chunk_id ]
+      pattern: "*.{filtered_ids.txt,zip}"
+  - filter_metadata:
       type: file
       description: |
-        Channel containing indexed BAM (BAI) files
-        Structure: [ val(meta), path(bai) ]
-      pattern: "*.bai"
-  - csi:
+        Per-chunk validation results for every structure
+        Structure: [ val(meta), path(tsv) ]
+      pattern: "*.filter_metadata.tsv"
+  - resmaps:
       type: file
       description: |
-        Channel containing CSI files
-        Structure: [ val(meta), path(csi) ]
-      pattern: "*.csi"
-  - versions:
+        Per-chunk residue maps from new to original numbering (experimental structures only)
+        Structure: [ val(meta), path(zip) ]
+      pattern: "*.resmaps.zip"
+  - renumber_errors:
       type: file
       description: |
-        File containing software versions
-        Structure: [ path(versions.yml) ]
-      pattern: "versions.yml"
+        Per-chunk list of experimental structures that could not be renumbered
+        Structure: [ val(meta), path(tsv) ]
+      pattern: "*.renumber_errors.tsv"
+  - uniprot:
+      type: file
+      description: |
+        Per-chunk UniProt proteome and taxonomy data (predicted structures only)
+        Structure: [ val(meta), path(tsv) ]
+      pattern: "*.uniprot_data.tsv"
 authors:
   - "@FernandoDuarteF"
+  - "@chriswyatt1"
 maintainers:
   - "@FernandoDuarteF"
+  - "@chriswyatt1"

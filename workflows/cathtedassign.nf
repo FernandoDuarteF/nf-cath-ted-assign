@@ -20,6 +20,10 @@ workflow CATHTEDASSIGN {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input
+    chunk_size
+    max_entries
+    min_chain_residues
+    max_chain_residues
     multiqc_config
     multiqc_logo
     multiqc_methods_description
@@ -27,17 +31,19 @@ workflow CATHTEDASSIGN {
 
     main:
 
-    // Remove ch_version if not used
     def ch_versions = channel.empty()
     def ch_multiqc_files = channel.empty()
 
     //
-    // Subworkflow: PREPARE_INPUT
+    // SUBWORKFLOW: List, chunk, renumber (experimental only) and filter input structures
     //
-
     PREPARE_INPUT (
-        ch_samplesheet
-     )
+        ch_samplesheet,
+        chunk_size,
+        max_entries,
+        min_chain_residues,
+        max_chain_residues,
+    )
 
     //
     // Collate and save software versions

@@ -1,0 +1,70 @@
+{
+    "-profile test": {
+        "content": [
+            {
+                "CHUNKBYZIP": {
+                    "python": "3.13.16"
+                },
+                "CREATEINPUTZIP": {
+                    "python": "3.13.16"
+                },
+                "FILTERPDB": {
+                    "gemmi": "0.7.5",
+                    "python": "3.13.16"
+                },
+                "GETUNIPROT": {
+                    "pandas": "2.3.3",
+                    "python": "3.13.16",
+                    "requests": "2.34.2"
+                },
+                "RENUMBERPDB": {
+                    "gemmi": "0.7.5",
+                    "python": "3.13.16"
+                },
+                "Workflow": {
+                    "nf-core/cathtedassign": "v1.0.0dev"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/llms-full.txt",
+                "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc.parquet",
+                "multiqc/multiqc_data/multiqc_citations.txt",
+                "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_software_versions.txt",
+                "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_cathtedassign_software_mqc_versions.yml",
+                "prepare_input",
+                "prepare_input/filter",
+                "prepare_input/filter/experimental_set1_0.filter_metadata.tsv",
+                "prepare_input/filter/predicted_set1_0.filter_metadata.tsv",
+                "prepare_input/filter/predicted_set1_1.filter_metadata.tsv",
+                "prepare_input/filter/predicted_set2_0.filter_metadata.tsv",
+                "prepare_input/renumber",
+                "prepare_input/renumber/experimental_set1_0.renumber_errors.tsv",
+                "prepare_input/renumber/experimental_set1_0.resmaps.zip",
+                "prepare_input/uniprot",
+                "prepare_input/uniprot/predicted_set1_0.uniprot_data.tsv",
+                "prepare_input/uniprot/predicted_set1_1.uniprot_data.tsv",
+                "prepare_input/uniprot/predicted_set2_0.uniprot_data.tsv"
+            ],
+            [
+                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
+                "experimental_set1_0.filter_metadata.tsv:md5,5bdbf53d812a21efe890e739f8145bab",
+                "predicted_set1_0.filter_metadata.tsv:md5,db3dbe5bac78e005f72bd9e99cc20e59",
+                "predicted_set1_1.filter_metadata.tsv:md5,e04a5210f3c1ad38e2a234fe06f816fb",
+                "predicted_set2_0.filter_metadata.tsv:md5,bd7953d0a4a5661ab7846ba2d10992fb",
+                "experimental_set1_0.renumber_errors.tsv:md5,33b80ecec90caab9c91cdd73bd6fa44a"
+            ]
+        ],
+        "timestamp": "2026-10-18T21:41:28.545299",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

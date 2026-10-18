@@ -1,77 +1,129 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-# # TODO nf-core: Add a description of the module and list keywords
 name: "getuniprot"
-description: write your description here
+description: Fetch UniProt proteome and taxonomy information for a list of UniProt accessions or AlphaFold DB IDs
 keywords:
-  - sort
-  - example
-  - genomics
+  - uniprot
+  - taxonomy
+  - alphafold
 tools:
-  ## TODO nf-core: Add a description and other details for the software below
-  - "getuniprot":
-      description: ""
-      homepage: ""
-      documentation: ""
-      tool_dev_url: ""
-      doi: ""
-      licence: null
-      identifier: null
-
+  - fetch_uniprot_data.py:
+      description: Pipeline script that queries the UniProt REST API for proteome and taxonomy fields
+      homepage: https://github.com/UCLOrengoGroup/nf-cath-ted-assign
+      documentation: https://github.com/UCLOrengoGroup/nf-cath-ted-assign
+      tool_dev_url: https://github.com/UCLOrengoGroup/nf-cath-ted-assign/tree/dev/bin
+      licence:
+        - "MIT"
+      identifier: ""
 input:
-  ### TODO nf-core: Add a description of all of the variables used as input
   - - meta:
         type: map
         description: |
           Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-    - bam:
+          e.g. `[ id:'predicted_set1', structure_type:'predicted', chunk_id:0 ]`
+    - tsv:
         type: file
-        description: Sorted BAM/CRAM/SAM file
-        pattern: "*.{bam,cram,sam}"
+        description: Single-column file with one UniProt accession or AlphaFold DB ID per line
+        pattern: "*.txt"
         ontologies:
-          - edam: "http://edamontology.org/format_2572" # BAM
-          - edam: "http://edamontology.org/format_2573" # CRAM
-          - edam: "http://edamontology.org/format_3462" # SAM
-
+          - edam: http://edamontology.org/format_2330
 output:
-  ### TODO nf-core: Add a description of all of the variables used as output
-  bam:
+  tsv:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.bam":
+            e.g. `[ id:'predicted_set1', structure_type:'predicted', chunk_id:0 ]`
+      - ${prefix}.uniprot_data.tsv:
           type: file
-          description: Sorted BAM/CRAM/SAM file
-          pattern: "*.{bam,cram,sam}"
+          description: TSV of accession, proteome and taxonomy fields
+          pattern: "*.uniprot_data.tsv"
           ontologies:
-            - edam: "http://edamontology.org/format_2572" # BAM
-            - edam: "http://edamontology.org/format_2573" # CRAM
-            - edam: "http://edamontology.org/format_3462" # SAM
-  versions_getuniprot:
-    - - "${task.process}":
+            - edam: http://edamontology.org/format_3475
+  versions_python:
+    - - ${task.process}:
           type: string
           description: The name of the process
-      - "getuniprot":
+      - python:
           type: string
           description: The name of the tool
-      - "getuniprot --version":
+      - 'python3 --version | sed "s/Python //"':
           type: eval
           description: The expression to obtain the version of the tool
-
+  versions_pandas:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - pandas:
+          type: string
+          description: The name of the tool
+      - 'python3 -c "import pandas; print(pandas.__version__)"':
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_requests:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - requests:
+          type: string
+          description: The name of the tool
+      - 'python3 -c "import requests; print(requests.__version__)"':
+          type: eval
+          description: The expression to obtain the version of the tool
 topics:
   versions:
     - - ${task.process}:
           type: string
           description: The name of the process
-      - getuniprot:
+      - python:
           type: string
           description: The name of the tool
-      - getuniprot --version:
+      - 'python3 --version | sed "s/Python //"':
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - pandas:
+          type: string
+          description: The name of the tool
+      - 'python3 -c "import pandas; print(pandas.__version__)"':
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - requests:
+          type: string
+          description: The name of the tool
+      - 'python3 -c "import requests; print(requests.__version__)"':
           type: eval
           description: The expression to obtain the version of the tool
 authors:
   - "@FernandoDuarteF"
+  - "@chriswyatt1"
 maintainers:
   - "@FernandoDuarteF"
+  - "@chriswyatt1"
+containers:
+  docker:
+    linux/amd64:
+      name: community.wave.seqera.io/library/pandas_python_requests:bc63b6490b345a7d
+      build_id: bd-bc63b6490b345a7d_1
+      scan_id: sc-6b437565345ce34a_1
+    linux/arm64:
+      name: community.wave.seqera.io/library/pandas_python_requests:4fb4372b4fbfb62d
+      build_id: bd-4fb4372b4fbfb62d_1
+      scan_id: sc-aed585248559bf18_1
+  singularity:
+    linux/amd64:
+      name: oras://community.wave.seqera.io/library/pandas_python_requests:f26c552db9620d4c
+      build_id: bd-f26c552db9620d4c_1
+      https: https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/50/50faac2be6b987b749f3d58c640e57649f6c28d1754c1392c83e74635739acfa/data
+    linux/arm64:
+      name: oras://community.wave.seqera.io/library/pandas_python_requests:1e04eebab3caaebc
+      build_id: bd-1e04eebab3caaebc_1
+      https: https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/05/05cfd66e8792939c13aa3fcd6880b3f12810f351f13a5f38a1b2898a9d4ccd7f/data
+  conda:
+    linux/amd64:
+      lock_file: modules/local/getuniprot/.conda-lock/linux_amd64-bd-bc63b6490b345a7d_1.txt
+    linux/arm64:
+      lock_file: modules/local/getuniprot/.conda-lock/linux_arm64-bd-4fb4372b4fbfb62d_1.txt

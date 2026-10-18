@@ -9,6 +9,8 @@ Initial release of nf-core/cathtedassign, created with the [nf-core](https://nf-
 
 ### `Added`
 
+- [#8](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/pull/8), [#10](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/pull/10), [#11](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/pull/11) - Input preparation: list the structures in each input ZIP archive, split them into chunks, renumber experimental structures (`structure_type` samplesheet column), keep single-model, single-chain proteins within `--min_chain_residues`/`--max_chain_residues`, and fetch UniProt taxonomy for predicted structures
+
 ### `Fixed`
 
 - [#12](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/pull/12) - Run nf-test on GitHub-hosted runners; fix `nf-core pipelines lint` failures; remove `--debug` (use `--max_entries` on its own)

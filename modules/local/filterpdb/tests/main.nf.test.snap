@@ -1,0 +1,239 @@
+{
+    "predicted_set1 - default thresholds - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filtered_ids.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filter_metadata.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FILTERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FILTERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "ids": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filtered_ids.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "metadata": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filter_metadata.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_gemmi": [
+                    [
+                        "FILTERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "FILTERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:34:13.172574",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "predicted_set1 - default thresholds": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filtered_ids.txt:md5,0e650548104830c38ce0d89cfeb10740"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filter_metadata.tsv:md5,f2bad4e4d73714bb75b0974298780d6b"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FILTERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FILTERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "ids": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filtered_ids.txt:md5,0e650548104830c38ce0d89cfeb10740"
+                    ]
+                ],
+                "metadata": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filter_metadata.tsv:md5,f2bad4e4d73714bb75b0974298780d6b"
+                    ]
+                ],
+                "versions_gemmi": [
+                    [
+                        "FILTERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "FILTERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:33:38.265641",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "predicted_set1 - minimum 50 residues": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filtered_ids.txt:md5,14ab986ef866ea0c24d5506bcd52906d"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filter_metadata.tsv:md5,f500bb364242499c074a1d3c302e38bd"
+                    ]
+                ],
+                "2": [
+                    [
+                        "FILTERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "3": [
+                    [
+                        "FILTERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "ids": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filtered_ids.txt:md5,14ab986ef866ea0c24d5506bcd52906d"
+                    ]
+                ],
+                "metadata": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.filter_metadata.tsv:md5,f500bb364242499c074a1d3c302e38bd"
+                    ]
+                ],
+                "versions_gemmi": [
+                    [
+                        "FILTERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "FILTERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:33:56.583698",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

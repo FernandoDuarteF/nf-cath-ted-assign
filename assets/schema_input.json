@@ -19,8 +19,16 @@
                 "exists": true,
                 "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.zip$",
                 "errorMessage": "Zip file must be provided, cannot contain spaces and must have extension '.zip'"
+            },
+            "structure_type": {
+                "type": "string",
+                "enum": ["predicted", "experimental"],
+                "default": "predicted",
+                "errorMessage": "Structure type must be 'predicted' (e.g. AlphaFold DB models) or 'experimental' (e.g. PDB entries)",
+                "meta": ["structure_type"]
             }
         },
         "required": ["file_id", "zip_file"]
-    }
+    },
+    "uniqueEntries": ["file_id"]
 }

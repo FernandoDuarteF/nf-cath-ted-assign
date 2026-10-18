@@ -1,0 +1,108 @@
+{
+    "predicted_set1 - two accessions - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.uniprot_data.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        "GETUNIPROT",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "2": [
+                    [
+                        "GETUNIPROT",
+                        "pandas",
+                        "2.3.3"
+                    ]
+                ],
+                "3": [
+                    [
+                        "GETUNIPROT",
+                        "requests",
+                        "2.34.2"
+                    ]
+                ],
+                "tsv": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted",
+                            "chunk_id": 0
+                        },
+                        "predicted_set1_0.uniprot_data.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_pandas": [
+                    [
+                        "GETUNIPROT",
+                        "pandas",
+                        "2.3.3"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "GETUNIPROT",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "versions_requests": [
+                    [
+                        "GETUNIPROT",
+                        "requests",
+                        "2.34.2"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:35:00.597998",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "predicted_set1 - two accessions": {
+        "content": [
+            "accession\tproteome_id\ttax_common_name\ttax_scientific_name\ttax_lineage",
+            {
+                "versions_pandas": [
+                    [
+                        "GETUNIPROT",
+                        "pandas",
+                        "2.3.3"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "GETUNIPROT",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "versions_requests": [
+                    [
+                        "GETUNIPROT",
+                        "requests",
+                        "2.34.2"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:34:41.262462",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

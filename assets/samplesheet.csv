@@ -1,3 +1,4 @@
-file_id,zip_file
-ted_benchmark,./assets/ted_benchmark.zip
-ted_benchmark_2,./assets/ted_benchmark_2.zip
+file_id,zip_file,structure_type
+afdb_shard_1,/path/to/afdb_shard_1.zip,predicted
+afdb_shard_2,/path/to/afdb_shard_2.zip,predicted
+pdb_entries,/path/to/pdb_entries.zip,experimental

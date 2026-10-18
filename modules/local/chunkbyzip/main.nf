@@ -1,39 +1,39 @@
 process CHUNKBYZIP {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_single'
 
-    // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     conda "${moduleDir}/environment.yml"
-    container "ghcr.io/uclorengogroup/domain-annotation-pipeline-script:${params.container_tag_name}"
+    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
+        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/a3/a3f1df1b7ac21563fc24563abb8de5df497c50e5b7bc186b1780cb0320c1af9d/data'
+        : 'community.wave.seqera.io/library/python:3.13.16--0e261d9000df13f5'}"
 
     input:
-    val(chunk_size)
     tuple val(meta), path(tsv)
+    val chunk_size
 
     output:
-    tuple val(meta), path("*.tsv"), emit: tsv
-    tuple val(meta), path("${meta.id}/*.txt"), emit: chunk_folder
-    tuple val("${task.process}"), val('python'), eval('python3 --version | cut -d" " -f2'), topic: versions, emit: versions_chunkbyzip
+    tuple val(meta), path("${prefix}.tsv"), emit: tsv
+    tuple val(meta), path("${prefix}/*.txt", arity: '1..*'), emit: chunk_folder
+    tuple val("${task.process}"), val('python'), eval('python3 --version | sed "s/Python //"'), emit: versions_python, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     """
     chunk_by_zip.py \\
-        --input_file $tsv \
-        --chunk_size $chunk_size \
-        --outdir ${prefix} \
+        --input_file ${tsv} \\
+        --chunk_size ${chunk_size} \\
+        --outdir ${prefix} \\
         --file_list ${prefix}.tsv
     """
 
     stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     """
-    echo $args
-
-    mkdir -p ${prefix}
+    mkdir ${prefix}
+    touch ${prefix}/${prefix}_ids_mapping.0.txt
     touch ${prefix}.tsv
     """
 }

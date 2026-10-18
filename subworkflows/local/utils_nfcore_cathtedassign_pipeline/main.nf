@@ -164,12 +164,6 @@ workflow PIPELINE_COMPLETION {
 */
 
 //
-// Validate channels from input samplesheet
-//
-def validateInputSamplesheet(input) {
-    // May want to use this later (e.g., throw error if duplicated IDs in samplesheet)
-}
-//
 // Generate methods description for MultiQC
 //
 def toolCitationText() {

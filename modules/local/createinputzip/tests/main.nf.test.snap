@@ -1,0 +1,88 @@
+{
+    "predicted_set1 - zip - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1_input_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        "CREATEINPUTZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "input_mapping": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1_input_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "CREATEINPUTZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:33:18.832999",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "predicted_set1 - zip": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1_input_mapping.tsv:md5,dd95fbe9b2d4ecf994bf3561f22f94f7"
+                    ]
+                ],
+                "1": [
+                    [
+                        "CREATEINPUTZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "input_mapping": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1_input_mapping.tsv:md5,dd95fbe9b2d4ecf994bf3561f22f94f7"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "CREATEINPUTZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:33:03.116969",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

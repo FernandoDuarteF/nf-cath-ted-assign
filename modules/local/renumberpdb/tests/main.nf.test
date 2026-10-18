@@ -1,0 +1,82 @@
+nextflow_process {
+
+    name "Test Process RENUMBERPDB"
+    script "../main.nf"
+    process "RENUMBERPDB"
+
+    tag "modules"
+    tag "modules_local"
+    tag "renumberpdb"
+
+    // 1UBQ (one chain plus waters) is renumbered; 4HHB (four chains) is reported as an error.
+    // The zips embed file timestamps, so their contents are snapshotted rather than their checksums.
+    test("experimental_set1 - 1UBQ and 4HHB") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+            process {
+                """
+                input[0] = channel.of('1UBQ', '4HHB')
+                    .collectFile(name: 'experimental_set1_ids_mapping.0.txt', newLine: true, sort: true)
+                    .map { ids -> [
+                        [ id:'experimental_set1', structure_type:'experimental', chunk_id:0 ],
+                        ids,
+                        file(params.pipelines_testdata_base_path + 'prepare_input/experimental_set1.zip', checkIfExists: true)
+                    ] }
+                """
+            }
+        }
+
+        then {
+            def zipEntries = { String zip -> new java.util.zip.ZipFile(zip).withCloseable { z -> z.entries().collect { e -> e.name }.sort() } }
+            def zipText = { String zip, String entry -> new java.util.zip.ZipFile(zip).withCloseable { z -> z.getInputStream(z.getEntry(entry)).text } }
+            def normalised = process.out.zip[0][1]
+            def resmaps = process.out.resmaps[0][1]
+            def resmap = zipText(resmaps, '1UBQ_resmap.tsv').readLines()
+            def atoms = zipText(normalised, '1UBQ.pdb').readLines().findAll { line -> line.startsWith('ATOM') || line.startsWith('HETATM') }
+            assertAll(
+                { assert process.success },
+                { assert !atoms.any { line -> line.contains('HOH') } },
+                { assert snapshot(
+                    zipEntries(normalised),
+                    zipEntries(resmaps),
+                    resmap.size(),
+                    resmap.take(3),
+                    process.out.errors,
+                    process.out.findAll { key, _val -> key.startsWith('versions') }
+                ).match() }
+            )
+        }
+    }
+
+    test("experimental_set1 - 1UBQ and 4HHB - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+            process {
+                """
+                input[0] = channel.of('1UBQ', '4HHB')
+                    .collectFile(name: 'experimental_set1_ids_mapping.0.txt', newLine: true, sort: true)
+                    .map { ids -> [
+                        [ id:'experimental_set1', structure_type:'experimental', chunk_id:0 ],
+                        ids,
+                        file(params.pipelines_testdata_base_path + 'prepare_input/experimental_set1.zip', checkIfExists: true)
+                    ] }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

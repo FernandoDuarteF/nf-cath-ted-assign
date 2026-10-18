@@ -1,77 +1,108 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-# # TODO nf-core: Add a description of the module and list keywords
 name: "chunkbyzip"
-description: write your description here
+description: Split a list of structure IDs into fixed-size chunks that never span two ZIP archives
 keywords:
-  - sort
-  - example
-  - genomics
+  - protein structure
+  - chunk
+  - zip
 tools:
-  ## TODO nf-core: Add a description and other details for the software below
-  - "chunkbyzip":
-      description: ""
-      homepage: ""
-      documentation: ""
-      tool_dev_url: ""
-      doi: ""
-      licence: null
-      identifier: null
-
+  - chunk_by_zip.py:
+      description: Pipeline script that groups structure IDs by ZIP archive and writes one ID list per chunk
+      homepage: https://github.com/UCLOrengoGroup/nf-cath-ted-assign
+      documentation: https://github.com/UCLOrengoGroup/nf-cath-ted-assign
+      tool_dev_url: https://github.com/UCLOrengoGroup/nf-cath-ted-assign/tree/dev/bin
+      licence:
+        - "MIT"
+      identifier: ""
 input:
-  ### TODO nf-core: Add a description of all of the variables used as input
   - - meta:
         type: map
         description: |
           Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-    - bam:
+          e.g. `[ id:'predicted_set1', structure_type:'predicted' ]`
+    - tsv:
         type: file
-        description: Sorted BAM/CRAM/SAM file
-        pattern: "*.{bam,cram,sam}"
+        description: |
+          TSV of structure ID and ZIP archive name, with an optional third column
+          of residue counts used to order IDs within a chunk
+        pattern: "*.tsv"
         ontologies:
-          - edam: "http://edamontology.org/format_2572" # BAM
-          - edam: "http://edamontology.org/format_2573" # CRAM
-          - edam: "http://edamontology.org/format_3462" # SAM
-
+          - edam: http://edamontology.org/format_3475
+  - chunk_size:
+      type: integer
+      description: Maximum number of structures per chunk
 output:
-  ### TODO nf-core: Add a description of all of the variables used as output
-  bam:
+  tsv:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.bam":
+            e.g. `[ id:'predicted_set1', structure_type:'predicted' ]`
+      - ${prefix}.tsv:
           type: file
-          description: Sorted BAM/CRAM/SAM file
-          pattern: "*.{bam,cram,sam}"
+          description: TSV with header (chunk_id, chunk_file, zip_name) describing every chunk
+          pattern: "*.tsv"
           ontologies:
-            - edam: "http://edamontology.org/format_2572" # BAM
-            - edam: "http://edamontology.org/format_2573" # CRAM
-            - edam: "http://edamontology.org/format_3462" # SAM
-  versions_chunkbyzip:
-    - - "${task.process}":
+            - edam: http://edamontology.org/format_3475
+  chunk_folder:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'predicted_set1', structure_type:'predicted' ]`
+      - ${prefix}/*.txt:
+          type: file
+          description: One file of structure IDs per chunk, named <zip>_ids_mapping.<chunk_id>.txt
+          pattern: "*_ids_mapping.*.txt"
+          ontologies:
+            - edam: http://edamontology.org/format_2330
+  versions_python:
+    - - ${task.process}:
           type: string
           description: The name of the process
-      - "chunkbyzip":
+      - python:
           type: string
           description: The name of the tool
-      - "chunkbyzip --version":
+      - 'python3 --version | sed "s/Python //"':
           type: eval
           description: The expression to obtain the version of the tool
-
 topics:
   versions:
     - - ${task.process}:
           type: string
           description: The name of the process
-      - chunkbyzip:
+      - python:
           type: string
           description: The name of the tool
-      - chunkbyzip --version:
+      - 'python3 --version | sed "s/Python //"':
           type: eval
           description: The expression to obtain the version of the tool
 authors:
   - "@FernandoDuarteF"
+  - "@chriswyatt1"
 maintainers:
   - "@FernandoDuarteF"
+  - "@chriswyatt1"
+containers:
+  docker:
+    linux/arm64:
+      name: community.wave.seqera.io/library/python:3.13.16--62b853ac64cf37be
+      build_id: bd-62b853ac64cf37be_1
+      scan_id: sc-c62b57e5857b63d7_1
+    linux/amd64:
+      name: community.wave.seqera.io/library/python:3.13.16--0e261d9000df13f5
+      build_id: bd-0e261d9000df13f5_1
+      scan_id: sc-6b4fdcd078f37ec3_1
+  singularity:
+    linux/arm64:
+      name: oras://community.wave.seqera.io/library/python:3.13.16--87d59a348d6c3e2c
+      build_id: bd-87d59a348d6c3e2c_1
+      https: https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/e1/e1d82fe44fa81305c8472ac6addaacd7d80cebf4f94bf232126d814c73544ba9/data
+    linux/amd64:
+      name: oras://community.wave.seqera.io/library/python:3.13.16--7d075f5a79ac9598
+      build_id: bd-7d075f5a79ac9598_1
+      https: https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/a3/a3f1df1b7ac21563fc24563abb8de5df497c50e5b7bc186b1780cb0320c1af9d/data
+  conda:
+    linux/amd64:
+      lock_file: modules/local/chunkbyzip/.conda-lock/linux_amd64-bd-0e261d9000df13f5_1.txt
+    linux/arm64:
+      lock_file: modules/local/chunkbyzip/.conda-lock/linux_arm64-bd-62b853ac64cf37be_1.txt

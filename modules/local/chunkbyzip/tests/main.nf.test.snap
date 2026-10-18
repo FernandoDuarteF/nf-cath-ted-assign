@@ -1,0 +1,134 @@
+{
+    "predicted_set1 - three structures - chunk size 2": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1.tsv:md5,e3a84aa28b11ed689d47fa8c12301242"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        [
+                            "predicted_set1_ids_mapping.0.txt:md5,7559fd2bb65ce5fff872857cd1227a5b",
+                            "predicted_set1_ids_mapping.1.txt:md5,463b5e15217cf8f56a7b3805add4c117"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        "CHUNKBYZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "chunk_folder": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        [
+                            "predicted_set1_ids_mapping.0.txt:md5,7559fd2bb65ce5fff872857cd1227a5b",
+                            "predicted_set1_ids_mapping.1.txt:md5,463b5e15217cf8f56a7b3805add4c117"
+                        ]
+                    ]
+                ],
+                "tsv": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1.tsv:md5,e3a84aa28b11ed689d47fa8c12301242"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "CHUNKBYZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:32:30.126802",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "predicted_set1 - three structures - chunk size 2 - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        [
+                            "predicted_set1_ids_mapping.0.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        "CHUNKBYZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "chunk_folder": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        [
+                            "predicted_set1_ids_mapping.0.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "tsv": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "CHUNKBYZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:32:46.829656",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}
