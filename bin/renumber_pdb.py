@@ -16,11 +16,11 @@ def renumber_pdb(input_file, output_file, mapping_file):
     st.setup_entities()
     # A PDB with no models cannot be processed
     if len(st) == 0:
-        raise ValueError(f"Failed to find any models in PDB {input_file}")
+        raise ValueError(f"Failed to find any models in PDB {Path(input_file).name}")
 
     # If multiple models are present, continue using only the first model
     if len(st) > 1:
-        print(f"WARNING: Found {len(st)} models in PDB {input_file}, only the first model will be used.", flush=True)
+        print(f"WARNING: Found {len(st)} models in PDB {Path(input_file).name}, only the first model will be used.", flush=True)
 
     # Keep only model 1
     while len(st) > 1:
@@ -40,7 +40,7 @@ def renumber_pdb(input_file, output_file, mapping_file):
     # Only single-chain structures are allowed
     if len(model) != 1:
         raise ValueError(
-            f"Expected one chain in {input_file}, found {len(model)}")
+            f"Expected one chain in {Path(input_file).name}, found {len(model)}")
     # Keep the first chain in the model (0)
     chain = model[0]
     # Define the original chain name to use later and rename the chain to A

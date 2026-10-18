@@ -39,6 +39,10 @@ workflow NFCORE_CATHTEDASSIGN {
     //
     CATHTEDASSIGN (
         samplesheet,
+        params.chunk_size,
+        params.max_entries,
+        params.min_chain_residues,
+        params.max_chain_residues,
         params.multiqc_config,
         params.multiqc_logo,
         params.multiqc_methods_description,

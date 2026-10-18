@@ -182,4 +182,12 @@ If you update images or graphics, follow the nf-core [style guidelines](https://
 
 ## Pipeline specific contribution guidelines
 
-<!-- TODO nf-core: Add any pipeline specific contribution guidelines here, such as coding styles, procedures, checklists etc. -->
+### Template deviations
+
+Intentional differences from the nf-core template. Keep our side when resolving template-sync PRs, and update this list when one is removed.
+
+- `.github/workflows/nf-test.yml`: jobs run on `ubuntu-latest`, because nf-core's self-hosted runners only exist in the nf-core org. Revert if the repo moves to nf-core.
+- `nextflow.config`, `tests/nextflow.config`: `pipelines_testdata_base_path` points to [chriswyatt1/cathtedassign-test-datasets](https://github.com/chriswyatt1/cathtedassign-test-datasets).
+- `.nf-core.yml`: the logo PNGs are excluded from the `files_unchanged` lint check because their rendering differs between machines.
+- `nextflow.config`: no `test_full` profile yet; `conf/test_full.config` still has template placeholders.
+- `subworkflows/local/utils_nfcore_cathtedassign_pipeline/main.nf`: `validateInputSamplesheet()` removed. Duplicate IDs are rejected by `uniqueEntries` in `assets/schema_input.json`.

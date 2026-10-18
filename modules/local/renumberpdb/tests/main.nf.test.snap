@@ -1,0 +1,148 @@
+{
+    "experimental_set1 - 1UBQ and 4HHB": {
+        "content": [
+            [
+                "1UBQ.pdb"
+            ],
+            [
+                "1UBQ_resmap.tsv"
+            ],
+            77,
+            [
+                "pdb_file\tnew_chain\tnew_resnum\toriginal_chain\toriginal_resnum\toriginal_icode",
+                "1UBQ.pdb\tA\t1\tA\t1\t",
+                "1UBQ.pdb\tA\t2\tA\t2\t"
+            ],
+            [
+                [
+                    {
+                        "id": "experimental_set1",
+                        "structure_type": "experimental",
+                        "chunk_id": 0
+                    },
+                    "experimental_set1_0.renumber_errors.tsv:md5,33b80ecec90caab9c91cdd73bd6fa44a"
+                ]
+            ],
+            {
+                "versions_gemmi": [
+                    [
+                        "RENUMBERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "RENUMBERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:39:24.490297",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "experimental_set1 - 1UBQ and 4HHB - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "experimental_set1",
+                            "structure_type": "experimental",
+                            "chunk_id": 0
+                        },
+                        "experimental_set1_0.normalised.zip:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "experimental_set1",
+                            "structure_type": "experimental",
+                            "chunk_id": 0
+                        },
+                        "experimental_set1_0.resmaps.zip:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "experimental_set1",
+                            "structure_type": "experimental",
+                            "chunk_id": 0
+                        },
+                        "experimental_set1_0.renumber_errors.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        "RENUMBERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "4": [
+                    [
+                        "RENUMBERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "errors": [
+                    [
+                        {
+                            "id": "experimental_set1",
+                            "structure_type": "experimental",
+                            "chunk_id": 0
+                        },
+                        "experimental_set1_0.renumber_errors.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "resmaps": [
+                    [
+                        {
+                            "id": "experimental_set1",
+                            "structure_type": "experimental",
+                            "chunk_id": 0
+                        },
+                        "experimental_set1_0.resmaps.zip:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_gemmi": [
+                    [
+                        "RENUMBERPDB",
+                        "gemmi",
+                        "0.7.5"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "RENUMBERPDB",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "zip": [
+                    [
+                        {
+                            "id": "experimental_set1",
+                            "structure_type": "experimental",
+                            "chunk_id": 0
+                        },
+                        "experimental_set1_0.normalised.zip:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-18T21:39:41.145168",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

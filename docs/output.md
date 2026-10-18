@@ -6,14 +6,30 @@ This document describes the output produced by the pipeline. Most of the plots a
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
-<!-- TODO nf-core: Write this documentation describing your workflow's output -->
-
 ## Pipeline overview
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
+- [Input preparation](#input-preparation) - Validate input structures, renumber experimental structures and fetch UniProt taxonomy
 - [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+
+### Input preparation
+
+Structures from each input ZIP archive are processed in chunks of `--chunk_size` structures. Output file names start with `<file_id>_<chunk>`.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `prepare_input/filter/`
+  - `*.filter_metadata.tsv`: one row per structure with `status` (`accepted` or `rejected`), the rejection `reason`, and model, chain and residue counts. Only accepted structures are analysed further.
+- `prepare_input/renumber/` (experimental structures only)
+  - `*.resmaps.zip`: one `<id>_resmap.tsv` per structure, mapping the new residue numbers (from 1, chain `A`) back to the original chain, residue number and insertion code.
+  - `*.renumber_errors.tsv`: structures that could not be renumbered, with the reason (for example, more than one protein chain).
+- `prepare_input/uniprot/` (predicted structures only)
+  - `*.uniprot_data.tsv`: UniProt proteome and taxonomy information for each accession, retrieved from the UniProt REST API.
+
+</details>
 
 ### MultiQC
 

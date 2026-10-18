@@ -1,0 +1,143 @@
+name: "renumberpdb"
+description: |
+  Renumber residues of experimental structures from 1, rename the chain to A,
+  remove non-amino-acid residues and record a residue map to the original numbering
+keywords:
+  - protein structure
+  - pdb
+  - renumber
+  - gemmi
+tools:
+  - renumber_pdb.py:
+      description: Pipeline script that normalises PDB residue numbering with gemmi and writes residue maps
+      homepage: https://github.com/UCLOrengoGroup/nf-cath-ted-assign
+      documentation: https://github.com/UCLOrengoGroup/nf-cath-ted-assign
+      tool_dev_url: https://github.com/UCLOrengoGroup/nf-cath-ted-assign/tree/dev/bin
+      licence:
+        - "MIT"
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'predicted_set1', structure_type:'predicted', chunk_id:0 ]`
+    - ids:
+        type: file
+        description: File with one structure ID per line
+        pattern: "*.txt"
+        ontologies:
+          - edam: http://edamontology.org/format_2330
+    - pdb_zip:
+        type: file
+        description: ZIP archive containing <id>.pdb files
+        pattern: "*.zip"
+        ontologies:
+          - edam: http://edamontology.org/format_3987
+output:
+  zip:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'predicted_set1', structure_type:'predicted', chunk_id:0 ]`
+      - ${prefix}.normalised.zip:
+          type: file
+          description: ZIP archive of renumbered single-chain structures
+          pattern: "*.normalised.zip"
+          ontologies:
+            - edam: http://edamontology.org/format_3987
+  resmaps:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'predicted_set1', structure_type:'predicted', chunk_id:0 ]`
+      - ${prefix}.resmaps.zip:
+          type: file
+          description: ZIP archive with one <id>_resmap.tsv per structure mapping new to original residue numbers
+          pattern: "*.resmaps.zip"
+          ontologies:
+            - edam: http://edamontology.org/format_3987
+  errors:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'predicted_set1', structure_type:'predicted', chunk_id:0 ]`
+      - ${prefix}.renumber_errors.tsv:
+          type: file
+          description: TSV of structures that could not be renumbered and why (e.g. more than one chain)
+          pattern: "*.renumber_errors.tsv"
+          ontologies:
+            - edam: http://edamontology.org/format_3475
+  versions_python:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+      - 'python3 --version | sed "s/Python //"':
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_gemmi:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - gemmi:
+          type: string
+          description: The name of the tool
+      - 'python3 -c "import gemmi; print(gemmi.__version__)"':
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+      - 'python3 --version | sed "s/Python //"':
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - gemmi:
+          type: string
+          description: The name of the tool
+      - 'python3 -c "import gemmi; print(gemmi.__version__)"':
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@FernandoDuarteF"
+  - "@chriswyatt1"
+maintainers:
+  - "@FernandoDuarteF"
+  - "@chriswyatt1"
+containers:
+  docker:
+    linux/arm64:
+      name: community.wave.seqera.io/library/gemmi_python:3d12d471fa0d2013
+      build_id: bd-3d12d471fa0d2013_1
+      scan_id: sc-c3da9aea2f7694ff_1
+    linux/amd64:
+      name: community.wave.seqera.io/library/gemmi_python:dcda7813bb27249c
+      build_id: bd-dcda7813bb27249c_1
+      scan_id: sc-88a21e25b506deb9_1
+  singularity:
+    linux/arm64:
+      name: oras://community.wave.seqera.io/library/gemmi_python:0f589ff152020468
+      build_id: bd-0f589ff152020468_1
+      https: https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/d5/d59bebb87ea99c4524f7b030da0c092852e45f40a749dce083a48ef87b7d0ffc/data
+    linux/amd64:
+      name: oras://community.wave.seqera.io/library/gemmi_python:04981d961f19c104
+      build_id: bd-04981d961f19c104_1
+      https: https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/46/46924d668bf244397aff77dda82f0ff9470adc2c9396b20490e5f644688b322a/data
+  conda:
+    linux/amd64:
+      lock_file: modules/local/renumberpdb/.conda-lock/linux_amd64-bd-dcda7813bb27249c_1.txt
+    linux/arm64:
+      lock_file: modules/local/renumberpdb/.conda-lock/linux_arm64-bd-3d12d471fa0d2013_1.txt
