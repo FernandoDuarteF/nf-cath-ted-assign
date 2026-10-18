@@ -6,6 +6,11 @@ lint:
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
+  # Logo PNG rendering differs between machines (macOS vs CI runner), so the byte comparison is not reproducible
+  files_unchanged:
+    - assets/nf-core-cathtedassign_logo_light.png
+    - docs/images/nf-core-cathtedassign_logo_light.png
+    - docs/images/nf-core-cathtedassign_logo_dark.png
 
 template:
   org: nf-core
