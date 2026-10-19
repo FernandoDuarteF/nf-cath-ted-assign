@@ -1,4 +1,71 @@
 {
+    "predicted_set1 - accepted structures with residue counts - chunk size 2": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1.tsv:md5,e3a84aa28b11ed689d47fa8c12301242"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        [
+                            "predicted_set1_ids_mapping.0.txt:md5,5930db3137182faeca751bd4b568b8ca",
+                            "predicted_set1_ids_mapping.1.txt:md5,14ab986ef866ea0c24d5506bcd52906d"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        "CHUNKBYZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ],
+                "chunk_folder": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        [
+                            "predicted_set1_ids_mapping.0.txt:md5,5930db3137182faeca751bd4b568b8ca",
+                            "predicted_set1_ids_mapping.1.txt:md5,14ab986ef866ea0c24d5506bcd52906d"
+                        ]
+                    ]
+                ],
+                "tsv": [
+                    [
+                        {
+                            "id": "predicted_set1",
+                            "structure_type": "predicted"
+                        },
+                        "predicted_set1.tsv:md5,e3a84aa28b11ed689d47fa8c12301242"
+                    ]
+                ],
+                "versions_python": [
+                    [
+                        "CHUNKBYZIP",
+                        "python",
+                        "3.13.16"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-10-19T08:36:24.139017",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
     "predicted_set1 - three structures - chunk size 2": {
         "content": [
             {

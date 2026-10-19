@@ -1,38 +1,5 @@
 {
-    "predicted and experimental zips - max_entries 3": {
-        "content": [
-            [
-                [
-                    {
-                        "id": "experimental_set1",
-                        "structure_type": "experimental",
-                        "chunk_id": 0
-                    },
-                    [
-                        "1UBQ"
-                    ],
-                    "experimental_set1_0.normalised.zip"
-                ],
-                [
-                    {
-                        "id": "predicted_set2",
-                        "structure_type": "predicted",
-                        "chunk_id": 0
-                    },
-                    [
-                        "A0A000"
-                    ],
-                    "predicted_set2.zip"
-                ]
-            ]
-        ],
-        "timestamp": "2026-10-18T21:40:41.120069",
-        "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
-        }
-    },
-    "predicted and experimental zips - chunk size 2": {
+    "predicted and experimental zips - chunk sizes 2": {
         "content": [
             [
                 [
@@ -53,7 +20,7 @@
                         "chunk_id": 0
                     },
                     [
-                        "A0A003",
+                        "A0A009DYA3",
                         "A0A009DWJ5"
                     ],
                     "predicted_set1.zip"
@@ -65,7 +32,7 @@
                         "chunk_id": 1
                     },
                     [
-                        "A0A009DYA3"
+                        "A0A003"
                     ],
                     "predicted_set1.zip"
                 ],
@@ -137,7 +104,40 @@
                 ]
             ]
         ],
-        "timestamp": "2026-10-18T21:40:13.237375",
+        "timestamp": "2026-10-19T08:37:17.468353",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "predicted and experimental zips - max_entries 3": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "experimental_set1",
+                        "structure_type": "experimental",
+                        "chunk_id": 0
+                    },
+                    [
+                        "1UBQ"
+                    ],
+                    "experimental_set1_0.normalised.zip"
+                ],
+                [
+                    {
+                        "id": "predicted_set2",
+                        "structure_type": "predicted",
+                        "chunk_id": 0
+                    },
+                    [
+                        "A0A000"
+                    ],
+                    "predicted_set2.zip"
+                ]
+            ]
+        ],
+        "timestamp": "2026-10-19T08:37:45.819776",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
