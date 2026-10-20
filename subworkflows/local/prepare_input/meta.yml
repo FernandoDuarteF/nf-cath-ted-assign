@@ -46,7 +46,8 @@ output:
       description: |
         Segmentation chunks of accepted structure IDs with the ZIP archive to read them from
         (the renumbered archive for experimental structures)
-        Structure: [ val(meta), path(ids), path(zip) ], meta: [ id, structure_type, chunk_id ]
+        Structure: [ val(meta), path(ids), path(zip) ], meta: [ id, structure_type, chunk_id, max_residues ]
+        (max_residues: residue count of the chunk's longest structure)
       pattern: "*.{txt,zip}"
   - filter_metadata:
       type: file

@@ -115,14 +115,21 @@ workflow PREPARE_INPUT {
         .map { meta, _ids, zip -> [ meta.id, zip.name, zip ] }
         .unique()
 
-    // One item per segmentation chunk, chunk index added to meta: [ val(meta), path(ids), path(zip) ]
-    def ch_heavy_chunks = CHUNKBYZIP_HEAVY.out.chunk_folder
-        .transpose()
-        .map { meta, ids ->
-            // Chunk files are named <zip stem>_ids_mapping.<chunk_id>.txt
-            def chunk_id = ids.name.tokenize('.')[-2].toInteger()
-            def zip_name = ids.name.replaceFirst(/_ids_mapping\.\d+\.txt$/, '') + '.zip'
-            [ meta.id, zip_name, meta + [ chunk_id: chunk_id ], ids ]
+    // One item per segmentation chunk, with the chunk index and the residue count of its longest
+    // structure (used to size segmentation resources) added to meta: [ val(meta), path(ids), path(zip) ]
+    def ch_heavy_chunks = CHUNKBYZIP_HEAVY.out.tsv
+        .join( CHUNKBYZIP_HEAVY.out.chunk_folder )
+        .flatMap { meta, mapping, chunk_files ->
+            def chunk_files_by_name = chunk_files.collectEntries { chunk_file -> [ chunk_file.name, chunk_file ] }
+            // Mapping columns: chunk_id, chunk_file, zip_name, max_residues
+            mapping.splitCsv(header: true, sep: '\t').collect { row ->
+                [
+                    meta.id,
+                    row.zip_name,
+                    meta + [ chunk_id: row.chunk_id.toInteger(), max_residues: row.max_residues.toInteger() ],
+                    chunk_files_by_name[ row.chunk_file.tokenize('/')[-1] ]
+                ]
+            }
         }
         .combine( ch_zips_by_name, by: [ 0, 1 ] )
         .map { _id, _zip_name, meta, ids, zip -> [ meta, ids, zip ] }
