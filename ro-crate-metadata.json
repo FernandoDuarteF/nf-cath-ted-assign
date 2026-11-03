@@ -1,28 +1,22 @@
 {
     "@context": [
-        "https://w3id.org/ro/crate/1.1/context",
-        {
-            "GithubService": "https://w3id.org/ro/terms/test#GithubService",
-            "JenkinsService": "https://w3id.org/ro/terms/test#JenkinsService",
-            "PlanemoEngine": "https://w3id.org/ro/terms/test#PlanemoEngine",
-            "TestDefinition": "https://w3id.org/ro/terms/test#TestDefinition",
-            "TestInstance": "https://w3id.org/ro/terms/test#TestInstance",
-            "TestService": "https://w3id.org/ro/terms/test#TestService",
-            "TestSuite": "https://w3id.org/ro/terms/test#TestSuite",
-            "TravisService": "https://w3id.org/ro/terms/test#TravisService",
-            "definition": "https://w3id.org/ro/terms/test#definition",
-            "engineVersion": "https://w3id.org/ro/terms/test#engineVersion",
-            "instance": "https://w3id.org/ro/terms/test#instance",
-            "resource": "https://w3id.org/ro/terms/test#resource",
-            "runsOn": "https://w3id.org/ro/terms/test#runsOn"
-        }
+        "https://w3id.org/ro/crate/1.3/context",
+        "https://w3id.org/ro/terms/test"
     ],
     "@graph": [
         {
             "@id": "./",
             "@type": "Dataset",
+            "conformsTo": [
+                {
+                    "@id": "https://w3id.org/workflowhub/workflow-ro-crate/1.1"
+                },
+                {
+                    "@id": "https://w3id.org/ro/wftest/0.2"
+                }
+            ],
             "creativeWorkStatus": "InProgress",
-            "datePublished": "2026-10-05T13:33:30+00:00",
+            "datePublished": "2026-11-03T11:10:56+00:00",
             "description": "# nf-cath-ted-assign\n\n[![nf-test](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/actions/workflows/nf-test.yml/badge.svg)](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/actions/workflows/nf-test.yml)\n[![Linting](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/actions/workflows/linting.yml/badge.svg)](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/actions/workflows/linting.yml)\n[![Python tests](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/actions/workflows/python-tests.yml/badge.svg)](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/actions/workflows/python-tests.yml)\n\n[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.10.4-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)\n[![nf-core template version](https://img.shields.io/badge/nf--core_template-4.1.0-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/4.1.0)\n[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)\n[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)\n[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)\n\n> [!WARNING]\n> **In development: this is not yet a working release.**\n> The pipeline is still being built. Several steps are missing, and parameters and outputs may change without notice.\n> Do not use it for production analyses yet. Until a first release, the working pipeline is [UCLOrengoGroup/domain-annotation-pipeline](https://github.com/UCLOrengoGroup/domain-annotation-pipeline).\n\n## Introduction\n\n**nf-cath-ted-assign** annotates protein structures with consensus domain boundaries and CATH superfamilies, following the approach of TED (The Encyclopedia of Domains).\n\nIt is a port of [UCLOrengoGroup/domain-annotation-pipeline](https://github.com/UCLOrengoGroup/domain-annotation-pipeline), built from the [nf-core](https://nf-co.re) template and following nf-core guidelines for modules, testing and linting. It is not an nf-core pipeline.\n\n## Pipeline steps and status\n\n| Step                              | What it does                                                                                                                                                                | Status      |\n| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |\n| Input preparation                 | List the structures in each ZIP archive, split them into chunks, renumber experimental structures, keep single-chain proteins within a length range, fetch UniProt taxonomy | Available   |\n| Domain segmentation and consensus | Chainsaw, Merizo and UniDoc, then a consensus of their domain boundaries ([#3](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/issues/3))                              | In progress |\n| Domain quality checks             | STRIDE, globularity, domain quality, pLDDT ([#6](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/issues/6))                                                            | Planned     |\n| CATH homology assignment          | Foldseek search against CATH, then contrasTED and Foldclass ([#7](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/issues/7))                                           | In progress |\n| Final results                     | Combine domain boundaries, quality metrics, taxonomy and CATH assignments into one table                                                                                    | Planned     |\n\n## Usage\n\n> [!NOTE]\n> If you are new to Nextflow, see [the Nextflow documentation](https://www.nextflow.io/docs/latest/install.html) for how to install it.\n\nPrepare a samplesheet listing ZIP archives of PDB files, one archive per row:\n\n```csv title=\"samplesheet.csv\"\nfile_id,zip_file,structure_type\nafdb_shard_1,/path/to/afdb_shard_1.zip,predicted\npdb_entries,/path/to/pdb_entries.zip,experimental\n```\n\nSee the [usage documentation](docs/usage.md) for details of each column.\n\nTo try the parts that work so far on a small test dataset:\n\n```bash\nnextflow run UCLOrengoGroup/nf-cath-ted-assign \\\n   -r dev \\\n   -profile test,docker \\\n   --outdir <OUTDIR>\n```\n\n> [!WARNING]\n> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_.\n\n## Pipeline output\n\nSee the [output documentation](docs/output.md) for the files the pipeline currently produces.\n\n## Credits\n\nnf-cath-ted-assign is led by Ian Sillitoe and Nick Edmunds, with support from Chris Wyatt and Fernando Duarte. It ports the domain-annotation-pipeline developed in the Orengo group at UCL.\n\nThis pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/main/LICENSE).\n\n## Contributions and Support\n\nIf you would like to contribute, please see the [contributing guidelines](docs/CONTRIBUTING.md). For questions or problems, please open a [GitHub issue](https://github.com/UCLOrengoGroup/nf-cath-ted-assign/issues).\n\n## Citations\n\nAn extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.\n\nThis pipeline uses the nf-core framework:\n\n> **The nf-core framework for community-curated bioinformatics pipelines.**\n>\n> Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.\n>\n> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).\n",
             "hasPart": [
                 {
@@ -99,7 +93,7 @@
             },
             "mentions": [
                 {
-                    "@id": "#9777ea1d-2140-4570-b142-9264a1b08026"
+                    "@id": "#09fcda9f-d0f4-4871-b177-024f79ddb067"
                 }
             ],
             "name": "nf-core/cathtedassign"
@@ -110,14 +104,9 @@
             "about": {
                 "@id": "./"
             },
-            "conformsTo": [
-                {
-                    "@id": "https://w3id.org/ro/crate/1.1"
-                },
-                {
-                    "@id": "https://w3id.org/workflowhub/workflow-ro-crate/1.0"
-                }
-            ]
+            "conformsTo": {
+                "@id": "https://w3id.org/ro/crate/1.3"
+            }
         },
         {
             "@id": "main.nf",
@@ -128,20 +117,20 @@
             ],
             "contributor": [
                 {
-                    "@id": "#e57f75e9-9634-4293-84b2-56409099dafe"
+                    "@id": "#ad083a9b-78a7-4d0f-87c7-b88b16d95eeb"
                 },
                 {
-                    "@id": "#e54feafc-c2ad-45c2-b487-5df65e526d17"
+                    "@id": "#2071ed2c-9981-4033-9304-fd3a59316a68"
                 },
                 {
-                    "@id": "#006ee803-c0f8-49de-898f-3f296e69a8db"
+                    "@id": "#44f46f0b-aca3-4129-af4f-c36e1b2ac046"
                 },
                 {
                     "@id": "https://orcid.org/0000-0002-7238-6008"
                 }
             ],
             "dateCreated": "",
-            "dateModified": "2026-10-05T14:33:30Z",
+            "dateModified": "2026-11-03T11:10:56Z",
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
             "keywords": [
                 "nf-core",
@@ -180,11 +169,20 @@
             "version": "!>=25.10.4"
         },
         {
-            "@id": "#9777ea1d-2140-4570-b142-9264a1b08026",
+            "@id": "https://w3id.org/workflowhub/workflow-ro-crate/1.1",
+            "@type": [
+                "CreativeWork",
+                "Profile"
+            ],
+            "name": "Workflow RO-Crate",
+            "version": "1.1"
+        },
+        {
+            "@id": "#09fcda9f-d0f4-4871-b177-024f79ddb067",
             "@type": "TestSuite",
             "instance": [
                 {
-                    "@id": "#bb6a8291-f686-4c03-b076-ad9e641d3f48"
+                    "@id": "#82dc5807-7ebd-4ab3-9877-b7a9d0c608fc"
                 }
             ],
             "mainEntity": {
@@ -193,7 +191,16 @@
             "name": "Test suite for nf-core/cathtedassign"
         },
         {
-            "@id": "#bb6a8291-f686-4c03-b076-ad9e641d3f48",
+            "@id": "https://w3id.org/ro/wftest/0.2",
+            "@type": [
+                "CreativeWork",
+                "Profile"
+            ],
+            "name": "Workflow Testing RO-Crate",
+            "version": "0.2"
+        },
+        {
+            "@id": "#82dc5807-7ebd-4ab3-9877-b7a9d0c608fc",
             "@type": "TestInstance",
             "name": "GitHub Actions workflow for testing nf-core/cathtedassign",
             "resource": "repos/nf-core/cathtedassign/actions/workflows/nf-test.yml",
@@ -322,17 +329,17 @@
             "url": "https://nf-co.re/"
         },
         {
-            "@id": "#e57f75e9-9634-4293-84b2-56409099dafe",
+            "@id": "#ad083a9b-78a7-4d0f-87c7-b88b16d95eeb",
             "@type": "Person",
             "name": "Chris Wyatt"
         },
         {
-            "@id": "#e54feafc-c2ad-45c2-b487-5df65e526d17",
+            "@id": "#2071ed2c-9981-4033-9304-fd3a59316a68",
             "@type": "Person",
             "name": "Fernando Duarte"
         },
         {
-            "@id": "#006ee803-c0f8-49de-898f-3f296e69a8db",
+            "@id": "#44f46f0b-aca3-4129-af4f-c36e1b2ac046",
             "@type": "Person",
             "name": "Ian Sillitoe"
         },
