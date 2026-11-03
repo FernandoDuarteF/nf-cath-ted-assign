@@ -64,7 +64,7 @@ See the [output documentation](docs/output.md) for the files the pipeline curren
 
 ## Credits
 
-nf-cath-ted-assign is being developed by Chris Wyatt, Fernando Duarte, Ian Sillitoe and Nick Edmunds, porting the domain-annotation-pipeline developed in the Orengo group at UCL.
+nf-cath-ted-assign is led by Ian Sillitoe and Nick Edmunds, with support from Chris Wyatt and Fernando Duarte. It ports the domain-annotation-pipeline developed in the Orengo group at UCL.
 
 This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/main/LICENSE).
 
