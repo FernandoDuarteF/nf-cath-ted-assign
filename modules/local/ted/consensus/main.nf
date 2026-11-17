@@ -44,7 +44,7 @@ process TED_CONSENSUS {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo $args
-    
+
     touch ${prefix}_consensus_sorted.tsv
     touch ${prefix}_consensus.tsv.changed.txt
     """

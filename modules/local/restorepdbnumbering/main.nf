@@ -30,14 +30,14 @@ process RESTOREPDBNUMBERING {
     restore_pdb_numbering.py \\
         --pdb_dir restored_chopped_pdbs \\
         --resmap_dir resmaps
-    
+
     tar \\
     --sort=name \\
     --mtime='UTC 1970-01-01' \\
     --owner=0 --group=0 --numeric-owner \\
     -czf ${prefix}_restored_chopped_pdbs.tar.gz \\
     -C restored_chopped_pdbs .
-    
+
     rm -rf restored_chopped_pdbs resmaps
     """
 

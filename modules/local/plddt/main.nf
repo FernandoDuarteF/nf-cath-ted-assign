@@ -38,7 +38,7 @@ process PLDDT {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo $args
-    
+
     touch ${prefix}_domain_avg_plddt.tsv
     """
 }

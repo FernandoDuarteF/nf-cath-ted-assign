@@ -37,7 +37,7 @@ workflow STRUCTURE_ANALYSIS {
         ch_join_plddt_md5,
         [],
         false
-    )    
+    )
 
 
     emit:

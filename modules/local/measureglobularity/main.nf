@@ -39,7 +39,7 @@ process MEASUREGLOBULARITY {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo $args
-    
+
     touch ${prefix}_domain_globularity.tsv
     """
 }

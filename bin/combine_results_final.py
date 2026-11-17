@@ -67,12 +67,12 @@ def run(transform_path, globularity_path, plddt_path, quality_path, foldseek_pat
     # Extract uniprot_id core for taxonomy merge
     #merged['chain_core_id'] = merged['uniprot_id'].str.replace(r'_\d+$', '', regex=True)
     merged['chain_core_id'] = strip_domain_suffix(merged['uniprot_id'])
-    
+
     # Merge foldseek data if provided
     if foldseek_path:
         fs_df = pd.read_csv(foldseek_path, sep='\t', dtype=str)
         fs_df = fs_df.rename(columns={
-            'query_id': 'model_id', 
+            'query_id': 'model_id',
             'target_id': 'foldseek_match_id',
             'evalue': 'foldseek_evalue',
             'tmscore': 'foldseek_tmscore',
@@ -84,7 +84,7 @@ def run(transform_path, globularity_path, plddt_path, quality_path, foldseek_pat
             )
         # TODO: Change uniprot_id to model_id in (transformed consensus) everywhere else.
         merged = merged.merge(fs_df, left_on='uniprot_id', right_on='model_id', how='left')
-    
+
     # Merge taxonomy if provided - updated tax_df['accession'] to undergo the same uniprot core extraction before rename.
     if taxonomy_path:
         tax_df = pd.read_csv(taxonomy_path, sep='\t', dtype=str)
@@ -131,7 +131,7 @@ def run(transform_path, globularity_path, plddt_path, quality_path, foldseek_pat
         'uniprot_id', 'md5_domain', 'consensus_level', 'chopping', 'nres_domain',
         'num_segments', 'num_helix_strand_turn', 'num_helix', 'num_strand', 'num_helix_strand',
         'num_turn', 'packing_density', 'normed_radius_gyration', 'avg_plddt',
-        'proteome_id', 'tax_common_name', 'tax_scientific_name', 'tax_lineage', 
+        'proteome_id', 'tax_common_name', 'tax_scientific_name', 'tax_lineage',
         'domqual', 'dom_single_domain',
         'foldseek_match_id',
         'foldseek_evalue',
@@ -142,7 +142,7 @@ def run(transform_path, globularity_path, plddt_path, quality_path, foldseek_pat
         'foldseek_target_cov',
         'Q_score'
     ]
-    
+
     # Only keep columns that exist in the merged DataFrame
     final_cols = [col for col in final_cols if col in merged.columns]
 

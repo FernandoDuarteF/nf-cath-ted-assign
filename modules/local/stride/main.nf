@@ -28,9 +28,9 @@ process STRIDE {
     cd pdb
 
     for f in *.pdb; do
-        stride \$f > "../\${f%.pdb}.stride" 2> "../\${f%.pdb}.stride.err" || { 
-        echo "STRIDE failed on \$f, see ../\${f%.pdb}.stride.err" 
-        continue 
+        stride \$f > "../\${f%.pdb}.stride" 2> "../\${f%.pdb}.stride.err" || {
+        echo "STRIDE failed on \$f, see ../\${f%.pdb}.stride.err"
+        continue
         }
     done
     cd ..
@@ -40,7 +40,7 @@ process STRIDE {
         -d . \\
         -o ${prefix}_stride_batch.unsorted.summary \\
         --suffix .stride
-    
+
     head -n 1 ${prefix}_stride_batch.unsorted.summary > ${prefix}_stride_batch.summary
     tail -n +2 ${prefix}_stride_batch.unsorted.summary | sort >> ${prefix}_stride_batch.summary
 
@@ -48,7 +48,7 @@ process STRIDE {
     rm -rf pdb
     rm -f *.stride
     rm -f ${prefix}_stride_batch.unsorted.summary
-    
+
     """
 
     stub:

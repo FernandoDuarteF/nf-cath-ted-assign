@@ -4,7 +4,7 @@ process CHUNKSMD5 {
 
     // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     conda "${moduleDir}/environment.yml"
-container "ghcr.io/uclorengogroup/domain-annotation-pipeline-cath-af-cli:${params.container_tag_name}" 
+container "ghcr.io/uclorengogroup/domain-annotation-pipeline-cath-af-cli:${params.container_tag_name}"
 
     input:
     tuple val(meta), path(pdb_tar)
@@ -29,7 +29,7 @@ container "ghcr.io/uclorengogroup/domain-annotation-pipeline-cath-af-cli:${param
 
     dos2unix \\
     -n ${prefix}_output_tmp.tsv ${prefix}_output.unsorted.tsv || tr -d '\\r' < ${prefix}_output_tmp.tsv > ${prefix}_output.unsorted.tsv
-   
+
     head -n 1 ${prefix}_output.unsorted.tsv > ${prefix}_output.tsv
     tail -n +2 ${prefix}_output.unsorted.tsv | sort >> ${prefix}_output.tsv
     rm -rf pdb

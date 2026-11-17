@@ -3,7 +3,7 @@
 """
 Script to process a directory of PDB files and generate a CSV file containing:
 - PDB ID
-- Chain ID  
+- Chain ID
 - Sequence MD5
 - Dom Domain Count (from dom tool)
 - DomQual (from domqual tool)
@@ -76,51 +76,51 @@ def get_pdb_files_from_zip(zip_path: str, file_list: Optional[str] = None) -> It
 def extract_pdb_chain_info(pdb_file: str) -> List[Tuple[str, str, str]]:
     """
     Extract PDB ID, chain ID, and sequence MD5 from a PDB file.
-    
+
     Args:
         pdb_file (str): Path to PDB file
-        
+
     Returns:
         List of tuples containing (pdb_id, chain_id, sequence_md5)
     """
     results = []
     parser = PDBParser(QUIET=True)
-    
+
     try:
         # Extract PDB ID from filename (e.g., A0A023ZWU6_01.pdb -> A0A023ZWU6_01)
         pdb_id = Path(pdb_file).stem
-        
+
         structure = parser.get_structure('structure', pdb_file)
-        
+
         for model in structure:
             for chain in model:
                 chain_id = chain.get_id()
-                
+
                 # Extract sequence from chain
                 sequence = ""
                 for residue in chain:
                     if Polypeptide.is_aa(residue.get_resname(), standard=True):
                         sequence += seq1(residue.get_resname())
-                
+
                 # Calculate MD5 hash of sequence
                 if sequence:
                     sequence_md5 = hashlib.md5(sequence.encode()).hexdigest()
                     results.append((pdb_id, chain_id, sequence_md5))
-                    
+
     except Exception as e:
         raise RuntimeError(f"Error processing {pdb_file}: {e}", file=sys.stderr)
-        
+
     return results
 
 
 def run_dom_analysis(pdb_file: str, dom_path: str) -> int:
     """
     Run dom tool on PDB file and extract domain count.
-    
+
     Args:
         pdb_file (str): Path to PDB file
         dom_path (str): Path to dom executable
-        
+
     Returns:
         int: Number of domains predicted
     """
@@ -149,7 +149,7 @@ def run_dom_analysis(pdb_file: str, dom_path: str) -> int:
             if result.stdout:
                 print(f"Dom stdout:\n{result.stdout}", file=sys.stderr)
             return 0
-            
+
         # Parse output to extract domain count
         output = result.stdout
 
@@ -167,7 +167,7 @@ def run_dom_analysis(pdb_file: str, dom_path: str) -> int:
         else:
             msg = f"Could not parse dom output for {pdb_file} (output: {output})"
             raise ValueError(msg)
-        
+
     except subprocess.TimeoutExpired:
         print(f"Dom analysis timed out for {pdb_file}", file=sys.stderr)
         return 0
@@ -179,16 +179,16 @@ def run_dom_analysis(pdb_file: str, dom_path: str) -> int:
 def run_domqual_analysis(pdb_dir: str, domqual_script: str) -> Dict[str, float]:
     """
     Run domqual analysis on directory and extract quality scores.
-    
+
     Args:
         pdb_dir (str): PDB directory
         domqual_script (str): Path to domqual Python script
-        
+
     Returns:
         Dict mapping PDB filenames to quality scores
     """
     quality_scores = {}
-    
+
     try:
         # Run domqual script on entire directory
         result = subprocess.run(
@@ -197,14 +197,14 @@ def run_domqual_analysis(pdb_dir: str, domqual_script: str) -> Dict[str, float]:
             text=True,
             # timeout=60 * 60 * 2  # Increased timeout for large directories
         )
-        
+
         if result.returncode != 0:
             # print(f"DomQual analysis failed: {result.stderr}", file=sys.stderr)
             raise RuntimeError(f"DomQual analysis failed with exit code {result.returncode}, stderr: {result.stderr}")
-            
+
         # Parse output to extract quality scores
         output = result.stdout
-        
+
         # Look for lines like "example_pdbs/A0A023GZ41_01.pdb 0.788040816783905"
         for line in output.split('\n'):
             if '.pdb' in line and not line.startswith('Torch'):
@@ -219,12 +219,12 @@ def run_domqual_analysis(pdb_dir: str, domqual_script: str) -> Dict[str, float]:
                         quality_scores[pdb_filename] = score
                     except (ValueError, IndexError):
                         continue
-                        
+
     except subprocess.TimeoutExpired:
         print("DomQual analysis timed out", file=sys.stderr)
     except Exception as e:
         print(f"Error running domqual analysis: {e}", file=sys.stderr)
-        
+
     return quality_scores
 
 

@@ -63,7 +63,7 @@ process TED_CHAINSAW {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo $args
-    
+
     touch ${prefix}_chopping_chainsaw_sorted.txt
     touch ${prefix}_chopping_chainsaw.log
     """
