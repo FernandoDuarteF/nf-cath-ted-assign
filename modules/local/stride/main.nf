@@ -3,9 +3,7 @@ process STRIDE {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
-        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/a3/a3f1df1b7ac21563fc24563abb8de5df497c50e5b7bc186b1780cb0320c1af9d/data'
-        : 'community.wave.seqera.io/library/python:3.13.16--0e261d9000df13f5'}"
+    container "ghcr.io/uclorengogroup/domain-annotation-pipeline-cath-af-cli:${params.container_tag_name}"
 
     input:
     tuple val(meta), path(pdb_tar)
@@ -18,6 +16,9 @@ process STRIDE {
     task.ext.when == null || task.ext.when
 
     script:
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error("STRIDE module does not support Conda: STRIDE is not packaged on conda-forge/bioconda. Please use Docker, Singularity, Apptainer or Podman instead.")
+    }
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
 
