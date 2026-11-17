@@ -3,9 +3,9 @@ process CHOPPDBZIP {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/YOUR-TOOL-HERE':
-        'quay.io/biocontainers/YOUR-TOOL-HERE' }"
+    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
+        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/24/24543d5cbb694fc2d7fdeef17c3ec6e892660085d0b48acca653a26337b507bc/data'
+        : 'community.wave.seqera.io/library/python_pdb-tools:73f0210ed7bb8b99'}"
 
     input:
 

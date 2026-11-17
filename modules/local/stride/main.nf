@@ -34,11 +34,11 @@ process STRIDE {
     done
     cd ..
 
-    create_stride.py \\
+    create_stride_summary.py \\
         $args \\
         -d . \\
-        -o ${prefix}_stride_batch.summary \\
-        suffix .stride \\
+        -o ${prefix}_stride_batch.unsorted.summary \\
+        --suffix .stride
     
     head -n 1 ${prefix}_stride_batch.unsorted.summary > ${prefix}_stride_batch.summary
     tail -n +2 ${prefix}_stride_batch.unsorted.summary | sort >> ${prefix}_stride_batch.summary
