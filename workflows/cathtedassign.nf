@@ -8,6 +8,7 @@ include { PREPARE_INPUT          } from '../subworkflows/local/prepare_input/mai
 include { TED_SEGMENTATION       } from '../subworkflows/local/ted_segmentation/main.nf'
 include { POST_TED_PROCESSING    } from '../subworkflows/local/post_ted_processing/main.nf'
 include { STRUCTURE_ANALYSIS     } from '../subworkflows/local/structure_analysis/main.nf'
+include { FOLDSEEK               } from '../subworkflows/local/foldseek/main.nf'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -28,6 +29,9 @@ workflow CATHTEDASSIGN {
     max_entries
     min_chain_residues
     max_chain_residues
+    foldseek_db
+    foldseek_lookup
+    foldseek_chunks_per_batch
     multiqc_config
     multiqc_logo
     multiqc_methods_description
@@ -48,6 +52,8 @@ workflow CATHTEDASSIGN {
         max_entries,
         min_chain_residues,
         max_chain_residues,
+        foldseek_db,
+        foldseek_lookup
     )
 
     TED_SEGMENTATION (
@@ -63,6 +69,13 @@ workflow CATHTEDASSIGN {
     STRUCTURE_ANALYSIS (
         POST_TED_PROCESSING.out.chopped_pdb,
         POST_TED_PROCESSING.out.chunk_md5
+    )
+
+    FOLDSEEK (
+        POST_TED_PROCESSING.out.chopped_pdb,
+        PREPARE_INPUT.out.target_db,
+        PREPARE_INPUT.out.lookup_table,
+        foldseek_chunks_per_batch
     )
 
     //
