@@ -32,4 +32,8 @@ workflow FOLDSEEK {
         ch_foldseek_lookup
     )
 
+    emit:
+    results = FOLDSEEK_PROCESSRESULTS.out.summary // channel: [ val(meta), path(tsv) ], parsed hits with CATH superfamily
+aln     = FOLDSEEK_EASYSEARCH.out.aln         // channel: [ val(meta), path(m8) ], raw foldseek output
+
 }
