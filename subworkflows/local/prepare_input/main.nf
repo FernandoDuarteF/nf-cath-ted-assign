@@ -138,7 +138,7 @@ workflow PREPARE_INPUT {
         .map { _id, _zip_name, meta, ids, zip -> [ meta, ids, zip ] }
 
     channel.value(file(foldseek_db))
-        .map { db -> 
+        .map { db ->
             def db_name = db.name.replaceAll(/\.(tar\.gz|tgz)$/, '')
             [ [id:db_name], db ] }
         .set { ch_foldseek_db }

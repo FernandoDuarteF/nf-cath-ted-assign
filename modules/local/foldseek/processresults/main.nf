@@ -38,7 +38,7 @@ process FOLDSEEK_PROCESSRESULTS {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo $args
-    
+
     touch ${prefix}_foldseek_parsed_results.tsv
     """
 }
