@@ -9,6 +9,7 @@ include { TED_SEGMENTATION       } from '../subworkflows/local/ted_segmentation/
 include { POST_TED_PROCESSING    } from '../subworkflows/local/post_ted_processing/main.nf'
 include { STRUCTURE_ANALYSIS     } from '../subworkflows/local/structure_analysis/main.nf'
 include { FOLDSEEK               } from '../subworkflows/local/foldseek/main.nf'
+include { FINAL_ASSEMBLY          } from '../subworkflows/local/final_assembly/main.nf'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -76,6 +77,20 @@ workflow CATHTEDASSIGN {
         PREPARE_INPUT.out.target_db,
         PREPARE_INPUT.out.lookup_table,
         foldseek_chunks_per_batch
+    )
+
+    FINAL_ASSEMBLY (
+        TED_SEGMENTATION.out.consensus,
+        POST_TED_PROCESSING.out.chunk_md5,
+        STRUCTURE_ANALYSIS.out.stride_output,
+        TED_SEGMENTATION.out.merizo,
+        TED_SEGMENTATION.out.unidoc,
+        TED_SEGMENTATION.out.chainsaw,
+        STRUCTURE_ANALYSIS.out.globularity_output,
+        STRUCTURE_ANALYSIS.out.join_plddt_md5_output,
+        STRUCTURE_ANALYSIS.out.domainquality_output,
+        PREPARE_INPUT.out.uniprot,
+        FOLDSEEK.out.results
     )
 
     //

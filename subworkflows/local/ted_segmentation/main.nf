@@ -55,5 +55,8 @@ workflow TED_SEGMENTATION {
 
 emit:
 consensus = TED_CONSENSUS.out.consensus  // channel: [ val(meta), path(txt) ]
+chainsaw  = TED_CHAINSAW.out.chainsaw    // channel: [ val(meta), path(txt) ]
+merizo    = TED_MERIZO.out.merizo        // channel: [ val(meta), path(txt) ]
+unidoc    = TED_UNIDOC.out.unidoc        // channel: [ val(meta), path(txt) ]
 
 }
