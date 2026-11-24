@@ -55,6 +55,9 @@ workflow FINAL_ASSEMBLY {
         .map { file -> tuple( [id:'all'], file ) }
         .set { ch_stride_collected }
 
+    //
+    // MODULE: Transform consensus output to final output format
+    //
     TRANSFORMCONSENSUS (
         ch_consensus_collected,
         ch_md5_collected,
@@ -92,7 +95,9 @@ workflow FINAL_ASSEMBLY {
         .map { file -> tuple( [id:'all'], file ) }
         .set { ch_unidoc_collected }
 
-    // Input order matches the module: chainsaw, merizo, unidoc
+    //
+    // MODULE: Collect results from segmentation modules (chainsaw, merizo, unidoc)
+    //
     COLLECTRESULTS (
         ch_chainsaw_collected,
         ch_merizo_collected,
@@ -159,7 +164,7 @@ workflow FINAL_ASSEMBLY {
         .map { file -> tuple( [id:'all'], file ) }
         .set { ch_foldseek_collected }
 
-    // Every input is a single file with meta [id:'all'], so no join is needed
+    // MODULE: Collect results from some modules (globularity, pLDDT, domain quality, uniprot, foldseek)
     COLLECTRESULTSFINAL (
         TRANSFORMCONSENSUS.out.tsv,
         ch_globularity_collected,

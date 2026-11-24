@@ -12,6 +12,7 @@ workflow FOLDSEEK {
 
     main:
 
+    // Prepare input for foldseek by grouping chopped PDBs into batches of size foldseek_chunks_per_batch (prob not necessary but copuing upstream)
     ch_chopped_pdbs
         .map { meta, tar ->
             def new_meta = [ id: meta.id, batch: meta.chunk_id.intdiv(foldseek_chunks_per_batch) ]
@@ -20,13 +21,17 @@ workflow FOLDSEEK {
         .groupTuple()
         .set { ch_foldseek_input }
 
-    //FOLDSEEK_CREATEDB ( ch_foldseek_input )
-
+    //
+    // MODULE: Run foldseek easysearch on each batch of chopped PDBs against the target database
+    //
     FOLDSEEK_EASYSEARCH (
         ch_foldseek_input,
         ch_target_db
     )
 
+    //
+    // MODULE: Process foldseek results to generate a summary of hits with CATH superfamily assignments
+    //
     FOLDSEEK_PROCESSRESULTS (
         FOLDSEEK_EASYSEARCH.out.aln,
         ch_foldseek_lookup
@@ -34,6 +39,6 @@ workflow FOLDSEEK {
 
     emit:
     results = FOLDSEEK_PROCESSRESULTS.out.summary // channel: [ val(meta), path(tsv) ], parsed hits with CATH superfamily
-aln     = FOLDSEEK_EASYSEARCH.out.aln         // channel: [ val(meta), path(m8) ], raw foldseek output
+    aln     = FOLDSEEK_EASYSEARCH.out.aln         // channel: [ val(meta), path(m8) ], raw foldseek output
 
 }

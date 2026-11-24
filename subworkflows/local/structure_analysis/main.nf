@@ -12,18 +12,30 @@ workflow STRUCTURE_ANALYSIS {
 
     main:
 
+    //
+    // MODULE: Caculate STRIDE secondary structure of each domain
+    //
     STRIDE (
         ch_chopped_pdbs
     )
 
+    //
+    // MODULE: Calculate globularity of each domain
+    //
     MEASUREGLOBULARITY (
         ch_chopped_pdbs
     )
 
+    //
+    // MODULE: Calculate domain quality of each domain
+    //
     DOMAINQUALITY (
         ch_chopped_pdbs
     )
 
+    //
+    // MODULE: Calculate pLDDT of each domain
+    //
     PLDDT (
         ch_chopped_pdbs
     )
@@ -33,6 +45,9 @@ workflow STRUCTURE_ANALYSIS {
         .map { meta, md5, plddt -> [ meta, [ md5, plddt ], 'tsv' ] }
         .set { ch_join_plddt_md5 }
 
+    //
+    // MODULE: Join pLDDT and md5 for each domain
+    //
     JOIN_PLDDT_MD5 (
         ch_join_plddt_md5,
         [],
@@ -41,8 +56,8 @@ workflow STRUCTURE_ANALYSIS {
 
 
     emit:
-    stride_output = STRIDE.out.summary // channel: [ val(meta), path(stride_output) ]
-    globularity_output = MEASUREGLOBULARITY.out.globularity // channel: [ val(meta), path(globularity_output) ]
-    domainquality_output = DOMAINQUALITY.out.domainquality // channel: [ val(meta), path(domain_quality.csv) ]
+    stride_output         = STRIDE.out.summary // channel: [ val(meta), path(stride_output) ]
+    globularity_output    = MEASUREGLOBULARITY.out.globularity // channel: [ val(meta), path(globularity_output) ]
+    domainquality_output  = DOMAINQUALITY.out.domainquality // channel: [ val(meta), path(domain_quality.csv) ]
     join_plddt_md5_output = JOIN_PLDDT_MD5.out.output // channel: [ val(meta), path(join_plddt_md5_output) ]
 }

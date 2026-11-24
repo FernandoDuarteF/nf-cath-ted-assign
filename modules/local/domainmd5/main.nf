@@ -1,16 +1,15 @@
-process CHUNKSMD5 {
+process DOMAINMD5 {
     tag "$meta.id"
     label 'process_single'
 
-    // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     conda "${moduleDir}/environment.yml"
-container "ghcr.io/uclorengogroup/domain-annotation-pipeline-cath-af-cli:${params.container_tag_name}"
+    container "ghcr.io/uclorengogroup/domain-annotation-pipeline-cath-af-cli:${params.container_tag_name}"
 
     input:
     tuple val(meta), path(pdb_tar)
 
     output:
-    tuple val(meta), path("*_output.tsv"), emit: md5s
+    tuple val(meta), path("*_output.tsv"), emit: md5
     tuple val("${task.process}"), val('cath-alphaflow'), eval("python -c 'import importlib.metadata as m; print(m.version(\"cath-alphaflow\"))'"), topic: versions, emit: versions_cathalphaflow
 
     when:

@@ -44,7 +44,7 @@ workflow CATHTEDASSIGN {
     def ch_multiqc_files = channel.empty()
 
     //
-    // SUBWORKFLOW: List, chunk, renumber (experimental only) and filter input structures
+    // SUBWORKFLOW PREPARE_INPUT: List, chunk, renumber (experimental only) and filter input structures
     //
     PREPARE_INPUT (
         ch_samplesheet,
@@ -57,21 +57,32 @@ workflow CATHTEDASSIGN {
         foldseek_lookup
     )
 
+    //
+    // SUBWORKFLOW TED_SEGMENTATION: Segment structures into domains using TED
+    //
     TED_SEGMENTATION (
         PREPARE_INPUT.out.structures
     )
 
+    //
+    // SUBWORKFLOW POST_TED_PROCESSING: Post-process TED output to generate chopped domain PDBs and their sequence MD5s
+    //
     POST_TED_PROCESSING (
         TED_SEGMENTATION.out.consensus,
         PREPARE_INPUT.out.structures
     )
 
-
+    //
+    // SUBWORKFLOW STRUCTURE_ANALYSIS: Analyze chopped PDBs and generate STRIDE summaries
+    //
     STRUCTURE_ANALYSIS (
         POST_TED_PROCESSING.out.chopped_pdb,
-        POST_TED_PROCESSING.out.chunk_md5
+        POST_TED_PROCESSING.out.domain_md5
     )
 
+    //
+    // SUBWORKFLOW FOLDSEEK: Search chopped PDBs against a target database using Foldseek
+    //
     FOLDSEEK (
         POST_TED_PROCESSING.out.chopped_pdb,
         PREPARE_INPUT.out.target_db,
@@ -79,9 +90,12 @@ workflow CATHTEDASSIGN {
         foldseek_chunks_per_batch
     )
 
+    //
+    // SUBWORKFLOW FINAL_ASSEMBLY: Assemble final output files and generate summary reports
+    //
     FINAL_ASSEMBLY (
         TED_SEGMENTATION.out.consensus,
-        POST_TED_PROCESSING.out.chunk_md5,
+        POST_TED_PROCESSING.out.domain_md5,
         STRUCTURE_ANALYSIS.out.stride_output,
         TED_SEGMENTATION.out.merizo,
         TED_SEGMENTATION.out.unidoc,
