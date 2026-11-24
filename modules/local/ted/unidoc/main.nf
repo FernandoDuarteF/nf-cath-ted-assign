@@ -4,8 +4,8 @@ process TED_UNIDOC {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
-?         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/3c/3c535ca55def65b04365695e527b4c16e81110332530a6921d110ff14300a68e/data'
-:         'community.wave.seqera.io/library/ted-unidoc:0.1.8-0--16ecbbbd2232086e' }"
+?         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/fb/fb9a382b9c952ebbfee7c1f3f77372ca1c49cd9169662920ab0dd4f05d145ddc/data'
+:         'community.wave.seqera.io/library/ted-unidoc_unzip:701ac328429addf3' }"
 
     input:
     tuple val(meta), path(ids), path(zip)
