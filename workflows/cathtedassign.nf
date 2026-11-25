@@ -30,6 +30,7 @@ workflow CATHTEDASSIGN {
     max_entries
     min_chain_residues
     max_chain_residues
+    merizo_weights
     foldseek_db
     foldseek_lookup
     foldseek_chunks_per_batch
@@ -53,6 +54,7 @@ workflow CATHTEDASSIGN {
         max_entries,
         min_chain_residues,
         max_chain_residues,
+        merizo_weights,
         foldseek_db,
         foldseek_lookup
     )
@@ -60,8 +62,11 @@ workflow CATHTEDASSIGN {
     //
     // SUBWORKFLOW TED_SEGMENTATION: Segment structures into domains using TED
     //
+    
+
     TED_SEGMENTATION (
-        PREPARE_INPUT.out.structures
+        PREPARE_INPUT.out.structures,
+        PREPARE_INPUT.out.merizo_weights
     )
 
     //

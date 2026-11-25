@@ -7,7 +7,8 @@ workflow TED_SEGMENTATION {
 
     take:
     ch_structures // channel: [ val(meta), path(ids), path(zip) ]
-
+    ch_weights    // channel: [ path(pt), path(pt), path(pt) ]
+    
     main:
 
     //
@@ -18,7 +19,7 @@ workflow TED_SEGMENTATION {
     //
     // MODULE: Run TED merizo
     //
-    TED_MERIZO ( ch_structures )
+    TED_MERIZO ( ch_structures, ch_weights )
 
     TED_MERIZO.out.merizo
         .join(ch_structures)

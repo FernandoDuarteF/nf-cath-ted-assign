@@ -9,6 +9,7 @@ process TED_MERIZO {
 
     input:
     tuple val(meta), path(ids), path(zip)
+    path (weights, stageAs: 'merizo_weights/*')
 
     output:
     tuple val(meta), path("*_chopping_merizo_sorted.txt"), emit: merizo
@@ -48,6 +49,7 @@ process TED_MERIZO {
     # ---------- Merizo (UniDoc inherits Merizo's chopping) ----------
     ted-merizo \\
         $args \\
+        --weights_dir merizo_weights \\
         -l structures.txt \\
         --out chopping_merizo.raw.txt \\
         > ${prefix}_chopping_merizo.log 2>&1

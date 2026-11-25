@@ -32,16 +32,20 @@ process CHOPPDBZIP {
         --pdb-zip  $zip \\
         --output $prefix
 
+    # Name the archive by whether any domain PDBs were written (find stops at the first match;
+    # avoids 'tar -t | grep -q', which fails under pipefail when grep exits early)
+    if [ -n "\$(find ${prefix} -name '*.pdb' -print -quit)" ]; then
+        archive=${prefix}_chopped_pdbs.tar.gz
+    else
+        archive=${prefix}_empty_file_error.tar.gz
+    fi
+
     tar \\
     --sort=name \\
     --mtime='UTC 1970-01-01' \\
     --owner=0 --group=0 --numeric-owner \\
-    -czf ${prefix}_chopped_pdbs.tar.gz \\
+    -czf \$archive \\
     -C ${prefix} .
-
-    if ! tar -tzf ${prefix}_chopped_pdbs.tar.gz | grep -q '\\.pdb'; then
-        mv ${prefix}_chopped_pdbs.tar.gz ${prefix}_empty_file_error.tar.gz
-    fi
 
     rm -rf ${prefix}
     """

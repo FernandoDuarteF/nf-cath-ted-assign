@@ -15,6 +15,7 @@ workflow PREPARE_INPUT {
     max_entries      // integer: maximum number of structures to process, or null for all
     min_residues     // integer: structures with this many residues or fewer are rejected
     max_residues     // integer: structures with this many residues or more are rejected
+    merizo_weights   // string: folder or base URL containing the Merizo weights
     foldseek_db      // string: path to the target database for foldseek search
     foldseek_lookup  // string: path to the lookup table for foldseek search
 
@@ -163,6 +164,17 @@ workflow PREPARE_INPUT {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        MERIZO WEIGHTS for TED MERIZO
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */    
+
+    channel.value(
+        (0..2).collect { i -> file("${merizo_weights}/weights_part_${i}.pt", checkIfExists: true) }
+    )
+        .set { ch_weights }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Prepare FOLDSEEK TARGET DATABASE for FOLDSEEK
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
@@ -198,6 +210,9 @@ workflow PREPARE_INPUT {
     // Experimental structures (restore original numbering)
     resmaps         = RENUMBERPDB.out.resmaps // channel: [ val(meta), path(zip) ]
     renumber_errors = RENUMBERPDB.out.errors  // channel: [ val(meta), path(tsv) ]
+
+    // Merizo weights
+    merizo_weights  = ch_weights              // channel: [ path(pt), path(pt), path(pt) ]
 
     // Taxonomy (FINAL_ASSEMBLY)
     uniprot         = GETUNIPROT.out.tsv      // channel: [ val(meta), path(tsv) ]

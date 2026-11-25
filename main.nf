@@ -44,6 +44,7 @@ workflow NFCORE_CATHTEDASSIGN {
         params.max_entries,
         params.min_chain_residues,
         params.max_chain_residues,
+        params.merizo_weights,
         params.foldseek_db,
         params.foldseek_lookup,
         params.foldseek_chunks_per_batch,

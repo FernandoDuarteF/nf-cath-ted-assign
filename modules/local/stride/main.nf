@@ -41,8 +41,9 @@ process STRIDE {
         -o ${prefix}_stride_batch.unsorted.summary \\
         --suffix .stride
 
-    head -n 1 ${prefix}_stride_batch.unsorted.summary > ${prefix}_stride_batch.summary
-    tail -n +2 ${prefix}_stride_batch.unsorted.summary | sort >> ${prefix}_stride_batch.summary
+    # Strip Windows line endings (\\r\\n from Python's csv writer) so collectFile merges rows correctly
+    head -n 1 ${prefix}_stride_batch.unsorted.summary | tr -d '\\r' > ${prefix}_stride_batch.summary
+    tail -n +2 ${prefix}_stride_batch.unsorted.summary | tr -d '\\r' | sort >> ${prefix}_stride_batch.summary
 
     find . -maxdepth 1 -name '*.stride.err' -size 0 -delete
     rm -rf pdb
